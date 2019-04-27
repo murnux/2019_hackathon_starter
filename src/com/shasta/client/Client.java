@@ -1,7 +1,15 @@
 package com.shasta.client;
 
 import com.shasta.threaded.ClientRunnable;
+
+import game.Game;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 
 /**
@@ -12,7 +20,9 @@ import java.net.Socket;
  * <p>Made as a starter project for the 2019 Shasta Networks/SOU CS Club Hackathon.</p>
  */
 public class Client extends ClientRunnable {
-
+	
+	OutputStream out = null;
+    BufferedReader in = null;
 
     public Client(Socket clientSocket) {
         super(clientSocket);
@@ -24,7 +34,13 @@ public class Client extends ClientRunnable {
      */
     @Override
     public void handleConnect() {
-        //TODO IMPLEMENT
+    	Socket sock = this.getClientSocket();
+        try {
+			super.sendMessage("Welcome to the game!");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -41,6 +57,7 @@ public class Client extends ClientRunnable {
      */
     @Override
     protected void handleMessage(String str) {
-        //TODO IMPLEMENT
+    	Game g = new Game();
+    	g.parseMessage(str);
     }
 }
