@@ -8,13 +8,6 @@ public class Enemy extends Entity {
 		this.strength = 5;
 	}
 	
-	public boolean isDead() {
-		if (health <= 0) {
-			return true;
-		} else {
-			return true;
-		}
-	}
 	public int getHealth() {
 		return health;
 	}

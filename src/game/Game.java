@@ -14,7 +14,6 @@ public class Game {
 		Enemy e = new Enemy();
 		
 		Entity winner = fight(p, e);
-		System.out.println(winner);
 		bothEntities[0] = p;
 		bothEntities[1] = e;
 		bothEntities[2] = winner;
@@ -23,25 +22,26 @@ public class Game {
 	
 	
 	private Entity fight(Player p, Enemy e) {
-		Random r = new Random();
+		Random r = new Random(); // set up random object for random num generation
 		Entity winner = null;
+		boolean keepRunning = true;
 		
-		do {
+		while (keepRunning) {
 			int whoHits = r.nextInt((1 - 0) + 1) + 0; // returns 0 or 1
-			System.out.println(whoHits);
 			if (whoHits == 1) { // player hits
 				p.attack(e);
+				if (e.isDead()) {
+					keepRunning = false; // stop if enemy has died
+					winner = e;
+				}
 			} else { // enemy hits
 				e.attack(p);
+				if (p.isDead()) {
+					keepRunning = false; // stop if player has died
+					winner = p;
+				}
 			}
-		} while (p.isDead() == false || e.isDead() == false);
-		
-		if (p.isDead()) {
-			winner = e;
-		} else if (e.isDead()) {
-			winner = p;
-		}
-		
+		} 
 		return winner;
 	}
 

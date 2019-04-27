@@ -8,9 +8,16 @@ public abstract class Entity {
 	protected int health;
 	protected int strength;
 	
-	abstract public boolean isDead();
 	abstract public int getHealth();
 	abstract public String getName();
+	
+	public boolean isDead() {
+		if (health <= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	private void decHealth(int amt) {
 		health -= amt;
 	}
@@ -21,7 +28,7 @@ public abstract class Entity {
 	
 	protected void attack(Entity en) {
 		Random r = new Random();
-		int damage = r.nextInt((strength - 0) + strength) + 0;
+		int damage = r.nextInt((strength - 0) + strength) + 0; // deals damage between 0 and an entities strength
 		en.decHealth(damage);
 	}
 	
@@ -45,7 +52,7 @@ public abstract class Entity {
 				"        |                 |           |\n" + 
 				"         \\              \\\\|           |//\n" + 
 				"   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^";
-		stone += "\n\n\n " + "Sadly, " + name + " has died."; 
+		stone += "\n\n\n " + "Sadly, " + name + " has died.\n"; 
 		return stone;
 	}
 	

@@ -85,6 +85,7 @@ public class Client extends ClientRunnable {
 	    			} else {
 	    				super.sendMessage(entities[1].gravestone());
 	    			}
+	    			super.sendMessage("Type in the name of a character to fight again: ");
 	    		} catch (IOException e) {
 	    			System.err.println("Something in handleMessage occured. :/");
 	    		}
