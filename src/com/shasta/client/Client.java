@@ -2,6 +2,7 @@ package com.shasta.client;
 
 import com.shasta.threaded.ClientRunnable;
 
+import game.Entity;
 import game.Game;
 
 import java.io.BufferedReader;
@@ -34,12 +35,16 @@ public class Client extends ClientRunnable {
      */
     @Override
     public void handleConnect() {
-    	Socket sock = this.getClientSocket();
         try {
-			super.sendMessage("Welcome to the game!");
+        	// Yes this looks absolutely grotesque, but it displays as expected in telnet. :)
+			super.sendMessage(" ---------------------------------------\n" + 
+					"|	    Yet Another			|\n" + 
+					"|	    Fighting Game		|\n" + 
+					"|					|\n" + 
+					"-----------------------------------------\n");
+			super.sendMessage("\n Type in your character's name: ");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Something in handleConnect occured. :/");
 		}
     }
 
@@ -48,7 +53,7 @@ public class Client extends ClientRunnable {
      */
     @Override
     public void handleDisconnect() {
-        //TODO IMPLEMENT
+        System.out.println("Game over!");
     }
 
     /**
@@ -57,7 +62,32 @@ public class Client extends ClientRunnable {
      */
     @Override
     protected void handleMessage(String str) {
-    	Game g = new Game();
-    	g.parseMessage(str);
+    	if (str == null || str == "") {
+    		try {
+    			super.sendMessage("You did not type a name, please try again.\n");
+    		} catch (IOException e) {
+    			System.err.println("No name was typed.");
+    		}
+    	} else {
+	    	Game g = new Game();
+	    	Entity[] entities = g.start(str);
+	    	
+	    	 
+	    		try {
+	    			super.sendMessage("Results after the fight: \n");
+	    			for (int i = 0; i <= entities.length - 2; i++) { // -2 so it doesn't print out the last element the winner (yet).
+	    				super.sendMessage(entities[i].toString() + "\n");
+	    			}
+	    			super.sendMessage("\n " + entities[2].getName() + " is the winner!");
+	    			
+	    			if (entities[2] == entities[0]) {
+	    				super.sendMessage(entities[0].gravestone());
+	    			} else {
+	    				super.sendMessage(entities[1].gravestone());
+	    			}
+	    		} catch (IOException e) {
+	    			System.err.println("Something in handleMessage occured. :/");
+	    		}
+    	}
     }
 }

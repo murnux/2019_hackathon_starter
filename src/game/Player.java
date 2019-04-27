@@ -1,9 +1,11 @@
 package game;
 
-public class Player extends Person {
-	String name = "Link";
-	int health = 10;
-	int attack = 1;
+public class Player extends Entity {	
+	public Player(String name) {
+		this.name = name;
+		this.health = 10;
+		this.strength = 5;
+	}
 	
 	public boolean isDead() {
 		if (health <= 0) {
@@ -24,10 +26,6 @@ public class Player extends Person {
 		return name;
 	}
 
-	public void attack(Person p) {
-		
-		
-	}
 	
 	
 }
